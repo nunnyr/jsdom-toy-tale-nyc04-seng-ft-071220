@@ -2,6 +2,8 @@ let addToy = false;
 
 let toysCollection = document.querySelector("#toy-collection")
 
+let toyForm = document.querySelector(".add-toy-form")
+
 document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
   const toyFormContainer = document.querySelector(".container");
@@ -38,7 +40,27 @@ let turnToyObjToCard = (toy) => {
         // create the individual elements razzmatazz/ append
         // OR 
         // use innerhtml to make your life easier
-        toyCard.innerHTML = `<p> ${toy.name} </p>`
+        toyCard.innerHTML = `<h2> ${toy.name} </h2> <img src=${toy.image} class="toy-avatar" > <p>${toy.likes} </p> 
+          <button class="like-btn"> Like <3 </button>`
         // 3) slap the outter most element on the Dom
         toysCollection.append(toyCard)
   }
+
+
+  toyForm.addEventListener("submit", (evt) => {
+      evt.preventDefault()
+      let nameOfToy = evt.target.toy_name.value
+      fetch("http://localhost:3000/toys", {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: nameOfToy,
+
+        }),
+
+      })
+
+  } )
+
